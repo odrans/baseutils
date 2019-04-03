@@ -1,0 +1,12 @@
+Package: baseutils
+Title: Some useful general functions for R
+Version: 0.1
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com")
+Description: Just what the title says
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
