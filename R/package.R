@@ -12,7 +12,7 @@ package <- function(name,check=FALSE) {
         package <- name[1]
         if(!package%in%accepted.packages) stop(paste("This package cannot be proccessed. Currently:",paste(accepted.packages,collapse = ", ")))
     }
-
+    
     dir.packages <- paste0(Sys.getenv("HOME"),"/github/R.packages")
 
     if(package=="SplitR") {
@@ -77,17 +77,19 @@ package <- function(name,check=FALSE) {
             )
 
     pkg <- paste(dir.packages,package,sep="/")
-
+    
     if(!dir.exists(pkg)) {
         usethis::create_package(path=pkg)
         usethis::use_mit_license("Odran Sourdeval")
     }
-
+    
     devtools::document(pkg)
     devtools::install(pkg)
-
+    
     if(check) devtools::check(pkg)
 
+    return(NULL)
+    
 }
 
 

@@ -1,13 +1,15 @@
 Package: baseutils
 Title: Some useful general functions for R
 Version: 0.1
+Author: Odran Sourdeval
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Odran",
+           family = "Sourdeval",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
+           email = "odran.sourdeval@univ-lille.fr")
 Description: Just what the title says
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: devtools, usethis, snow, doSNOW, dplyr, stringr
 RoxygenNote: 6.1.1
