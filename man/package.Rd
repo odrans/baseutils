@@ -4,7 +4,7 @@
 \alias{package}
 \title{Create or install package}
 \usage{
-package(name, check = FALSE)
+package(name, check = FALSE, ...)
 }
 \arguments{
 \item{name}{package name}
