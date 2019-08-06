@@ -95,13 +95,10 @@ package <- function(name,check=FALSE,...) {
     
     if(check) devtools::check(pkg)
 
-<<<<<<< HEAD
-=======
     setwd(pkg)
     
     return(NULL)
-    
->>>>>>> 96d4e45ef1c1cc5456c409480df9a78bb930198f
+
 }
 
 
