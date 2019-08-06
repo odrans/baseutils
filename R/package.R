@@ -2,8 +2,10 @@
 #' @param name package name
 #' @param check run devtools::check on the package (default is FALSE)
 #' @export
-package <- function(name,check=FALSE) {
+package <- function(name,check=FALSE,...) {
 
+    old.wd <- getwd()
+    
     accepted.packages <- c("icnc","icon","cospr","rttools","modis","SplitR","rhdf4","dardarNi","rrrtmg","niforcing","baseutils")
 
     if(length(name)==0) {
@@ -76,18 +78,30 @@ package <- function(name,check=FALSE) {
             devtools.desc=description
             )
 
-    pkg <- paste(dir.packages,package,sep="/")
+    pkg <- paste(dir.packages,package,sep="/"); setwd(pkg)
     
     if(!dir.exists(pkg)) {
         usethis::create_package(path=pkg)
         usethis::use_mit_license("Odran Sourdeval")
     }
-    
+
+    check.data <- function(...) if(length(list(...))) TRUE else FALSE
+    if(check.data(...)) {
+        usethis::use_data(...)
+    }
+
     devtools::document(pkg)
     devtools::install(pkg)
     
     if(check) devtools::check(pkg)
 
+<<<<<<< HEAD
+=======
+    setwd(pkg)
+    
+    return(NULL)
+    
+>>>>>>> 96d4e45ef1c1cc5456c409480df9a78bb930198f
 }
 
 
