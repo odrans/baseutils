@@ -88,8 +88,6 @@ package <- function(name,check=FALSE) {
     
     if(check) devtools::check(pkg)
 
-    return(NULL)
-    
 }
 
 
