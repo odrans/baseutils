@@ -98,7 +98,7 @@ package <- function(name,check=FALSE,...) {
     setwd(pkg)
     
     return(NULL)
-    
+
 }
 
 
