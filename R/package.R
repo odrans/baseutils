@@ -6,7 +6,7 @@ package <- function(name,check=FALSE,...) {
 
     old.wd <- getwd()
     
-    accepted.packages <- c("icnc","icon","cospr","rttools","modis","SplitR","rhdf4","dardarNi","rrrtmg","niforcing","baseutils")
+    accepted.packages <- c("icnc","icon","cospr","rttools","rmodis","SplitR","rhdf4","dardarNi","rrrtmg","niforcing","baseutils")
 
     if(length(name)==0) {
         stop(paste("Please indicate package name as argument. Currently:",paste(accepted.packages,collapse = ", ")))
@@ -43,7 +43,7 @@ package <- function(name,check=FALSE,...) {
                                                Description="Diverse tools for radiative transfer calculations",
                                                Version="0.1")
 
-    if(package=="modis") description <- list(Title="Tools to deal with MODIS data",
+    if(package=="rmodis") description <- list(Title="Tools to deal with MODIS data",
                                              Description="Diverse tools for MODIS reading/processing",
                                              Version="0.1")
 
