@@ -6,7 +6,7 @@ package <- function(name,check=FALSE,...) {
 
     old.wd <- getwd()
     
-    accepted.packages <- c("icnc","icon","cospr","rttools","rmodis","SplitR","rhdf4","dardarNi","rrrtmg","niforcing","baseutils")
+    accepted.packages <- c("icnc","icon","cospr","rttools","rmodis","SplitR","rhdf4","dardarNi","rrrtmg","niforcing","baseutils","darnitools")
 
     if(length(name)==0) {
         stop(paste("Please indicate package name as argument. Currently:",paste(accepted.packages,collapse = ", ")))
@@ -24,7 +24,7 @@ package <- function(name,check=FALSE,...) {
         author <- ' person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))'    
         license <- "What license is it under?"
     } else {
-        author <- 'person("Odran", "Sourdeval", email = "odran.sourdeval@uni-leipzig.de", role = c("aut", "cre"))'
+        author <- 'person("Odran", "Sourdeval", email = "odran.sourdeval@univ-lille.fr", role = c("aut", "cre"))'
         license <- "GPL (>= 3)"
     }
 
@@ -71,30 +71,34 @@ package <- function(name,check=FALSE,...) {
                                                  Description="Just what the title says",
                                                  Version="0.1")
 
-
+    if(package=="darnitools") description <- list(Title= "General tools to process DARDAR-Nice data",
+                                                  Description="Just what the title says",
+                                                  Version="1.0")
+    
 
     options(devtools.desc.author=author,
             devtools.desc.license=license,
             devtools.desc=description
             )
-
-    pkg <- paste(dir.packages,package,sep="/"); setwd(pkg)
+    
+    pkg <- paste(dir.packages,package,sep="/")
     
     if(!dir.exists(pkg)) {
         usethis::create_package(path=pkg)
         usethis::use_mit_license("Odran Sourdeval")
     }
 
+    setwd(pkg)
     check.data <- function(...) if(length(list(...))) TRUE else FALSE
     if(check.data(...)) {
         usethis::use_data(...)
     }
-
+    
     devtools::document(pkg)
     devtools::install(pkg)
     
     if(check) devtools::check(pkg)
-
+    
     setwd(pkg)
     
     return(NULL)
