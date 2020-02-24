@@ -55,7 +55,7 @@ lscluster <- function(user, allocated=TRUE) {
 
   ## Return a running local partition if there is nothing else
   if(nrow(df %>% dplyr::filter(status == "R")) == 0) {
-    df <- rbind(df,data.frame(jobid=NA, partition="local", user="b380333", status="R",
+    df <- rbind(df,data.frame(jobid=NA, partition="local", user=user, status="R",
                               nodes=1, time="0:00", nodelist="localhost"))
   }
 
