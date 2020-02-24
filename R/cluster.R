@@ -1,5 +1,5 @@
 #' Create and register a cluster; Cluster ID is returned.
-#' @param names clustaer names
+#' @param names cluster names
 #' @param ncores number of cpu per cluster
 #' @param outfile outfile for cluster runs
 #' @export
@@ -13,10 +13,10 @@ regcluster <- function(ncores=1,names="localhost",outfile="/dev/null") {
         return(warning("Number of cores is incorrect."))
     }
     print(spec)
-    
+
     cl <- snow::makeCluster(spec, type = "SOCK", outfile = outfile)
     doSNOW::registerDoSNOW(cl)
-    
+
     return(cl)
 }
 
@@ -43,8 +43,25 @@ lscluster <- function(user="b380333") {
     }
 
     return(df)
-    
+
 }
+
+
+#' Run a function on a local cluster
+#' Can be used to embed a local cluster into a remote one
+#' @param x_local vector or list of input parameters
+#' @param fun_local function to be ran locally
+#' @param ... extra arguments to be used by fun_local
+#' @export
+localcluster <- function(x_local,fun_local,...) {
+  cl_local <- baseutils::regcluster(length(x_local),"localhost")
+  out <- snow::clusterApply(cl=cl_local,x=x_local,fun=fun_local,...)
+  snow::stopCluster(cl_local)
+  return(out)
+}
+
+
+
 
 ## ' Request an exclusive nodes on a cluster
 ## ' @param project project nodes to request
