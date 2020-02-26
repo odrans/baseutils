@@ -1,7 +1,7 @@
 #' Standardized log file output
 #'
 #' @param logtext string, text to be exported in the log file
-#' @param logfn string, name of the log file
+#' @param fn string, name of the log file
 #' @param lev integer, indenting space to be added before `logtext'.
 #' Default is 0.
 #' @param dots logical, indicates if an ellipsis should be added at the end of `logtext'.
@@ -13,12 +13,13 @@
 #' @return
 #' NULL
 #' @export
-logfile <- function(logtext,logfn,lev=0,dots=FALSE,newline=FALSE,append=TRUE) {
-    pre <- rep(" ",lev); post <- ""
-    if(dots) post <- paste0(post,"...")
-    if(newline) post <- paste0(post,"\n")
+logfile <- function(logtext,fn,lev=0,dots=FALSE,newline=FALSE,append=TRUE) {
 
-    cat(pre,logtext,post,file=logfn,append=append)
+  pre <- rep(" ",lev); post <- ""
+  if(dots) post <- paste0(post,"...")
+  if(newline) post <- paste0(post,"\n")
 
-    return(NULL)
+  cat(pre,logtext,post,file=fn,append=append)
+
+  return(NULL)
 }
