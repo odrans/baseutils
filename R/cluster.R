@@ -90,3 +90,38 @@ localcluster <- function(x_local, fun_local, ...) {
 
   return(out)
 }
+
+
+#' Run clusterApply on local sub-clusters created on the selected hosts.
+#'
+#' @param n integer; size of the local socket sub-cluster to create.
+#' @param cl cluster object; cluster on which the local sub-clusters will be executed.
+#' @param x vector; first input argument of the `fun' function
+#' @param fun function; function to be executed on the sub-clusters
+#' @param ... extra input arguments of the `fun' function
+#' @return
+#' List containing function outputs
+#' @examples
+#'
+#' # Extract information on allocated nodes for the user "username". This is hereinafter called the main cluster.
+#' # cl.info <- baseutils::lscluster(user="username")
+#'
+#' #Create and register the main cluster
+#' # cl <- baseutils::regcluster(cl.info$nodes,cl.info$nodelist)
+#'
+#' # Run the function `fun_cluster' on sub-clusters of 20 nodes that will be created on each nodes of the main cluster.
+#' # Extra arguments `argument1' and `argument2' are two arguments of the `fun_cluster' function.
+#' # argument1 is a vector whose elements will be subset into 20 equal chunks that will be passed to each node of the main cluster.
+#' # null <- baseutils::clusterApply_hop(n = 20, cl = cl, x = argument1, fun = fun_cluster, argument2)
+#'
+#' # De-register the main cluster
+#' # snow::stopCluster(cl)
+#'
+#' @export
+clusterApply_hop <- function(n, cl, x, fun, ...) {
+
+  x.chunks <- baseutils::eqsplit(x, n)
+
+  snow::clusterApply(cl, x.chunks, baseutils::localcluster ,fun_local=fun, ...)
+
+}
