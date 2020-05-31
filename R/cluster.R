@@ -66,6 +66,15 @@ lscluster <- function(user, allocated=TRUE) {
 
 }
 
+#' Force stop a cluster
+#' Use the snow::stopCluster function and force kill all active jobs by user on the node
+#' @export
+fstopCluster  <- function(cl) {
+  snow::stopCluster(cl)
+  null <- lapply(cl, function(x) system(paste("ssh", x$host, "killall -u $USER")))
+  return(NULL)
+}
+
 
 #' Run a function on a local cluster.
 #' Can be used to embed a local cluster into a remote one.
@@ -84,7 +93,7 @@ localcluster <- function(x_local, fun_local, ...) {
   cl_local <- baseutils::regcluster(length(x_local), "localhost")
 
   ## Run `fun_local' on that cluster
-  out <- snow::clusterApply(cl=cl_local,x=x_local,fun=fun_local,...)
+  out <- snow::clusterApply(cl = cl_local, x = x_local, fun = fun_local, ...)
 
   snow::stopCluster(cl_local)
 
@@ -122,6 +131,52 @@ clusterApply_hop <- function(n, cl, x, fun, ...) {
 
   x.chunks <- baseutils::eqsplit(x, n)
 
-  snow::clusterApply(cl, x.chunks, baseutils::localcluster ,fun_local=fun, ...)
+  snow::clusterApply(cl, x.chunks, baseutils::localcluster ,fun_local = fun, ...)
 
+}
+
+
+
+#' Run ldply on local sub-clusters created on the selected hosts.
+#' The advantage over clusterApply_hop is that ldply doesn't wait for all jobs to finish before started a new batch
+#' Inconvenient is that memory usage is not as properly handled as with clusterApply. Overflows will not be killed.
+#'
+#' @param n integer; size of the local socket sub-cluster to create.
+#' @param cl cluster object; cluster on which the local sub-clusters will be executed.
+#' @param x vector; first input argument of the `fun' function
+#' @param fun function; function to be executed on the sub-clusters
+#' @param ... extra input arguments of the `fun' function
+#' @return
+#' List containing function outputs
+#' @export
+ldply_hop <- function(n, cl, x, fun, ...) {
+
+  x.chunks <- baseutils::eqsplit(x, length(x) / length(cl))
+
+  snow::clusterApply(cl, x.chunks, baseutils::localcluster_ldply , fun_local = fun, n_local = n, ...)
+
+}
+
+
+#' Run a function on a local cluster.
+#' Can be used to embed a local cluster into a remote one.
+#'
+#' @param x_local vector; input parameters to be used by snow::clusterApply.
+#' This corresponds to the first argument of `fun_local'.
+#' The length of x_local determines the size of the cluster that will be registered.
+#' @param fun_local function that will be executed on the local cluster.
+#' @param ... extra arguments to be used by fun_local
+#' @return
+#' List containing the function outputs
+#' @export
+localcluster_ldply <- function(x_local, fun_local, n_local, ...) {
+
+  library(doMC); doMC::registerDoMC(n_local)
+
+  ## Run `fun_local' on a ldply split
+  out <- plyr::ldply(.data = x_local, .fun = fun_local, ..., .parallel = TRUE)
+
+  registerDoSEQ()
+
+  return(out)
 }

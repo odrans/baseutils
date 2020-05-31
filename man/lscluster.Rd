@@ -2,13 +2,21 @@
 % Please edit documentation in R/cluster.R
 \name{lscluster}
 \alias{lscluster}
-\title{List information on requested clusters}
+\title{List information on requested clusters.
+Currently only works for clusters using a SLURM management system.}
 \usage{
-lscluster(user = "b380333")
+lscluster(user, allocated = TRUE)
 }
 \arguments{
-\item{user}{username}
+\item{user}{character; name of the cluster user.}
+
+\item{allocated}{logical; indicates of the cluster information should be limited to allocated (running) nodes.
+Default is TRUE.}
+}
+\value{
+a data frame containing the job ID, partition, username, status, node host names and node numbers associated with user.
 }
 \description{
-List information on requested clusters
+List information on requested clusters.
+Currently only works for clusters using a SLURM management system.
 }
