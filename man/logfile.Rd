@@ -4,8 +4,7 @@
 \alias{logfile}
 \title{Standardized log file output}
 \usage{
-logfile(logtext, fn, lev = 0, dots = FALSE, newline = FALSE,
-  append = TRUE)
+logfile(logtext, fn, lev = 0, dots = FALSE, newline = FALSE, append = TRUE)
 }
 \arguments{
 \item{logtext}{string, text to be exported in the log file}

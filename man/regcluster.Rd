@@ -4,8 +4,12 @@
 \alias{regcluster}
 \title{Create and register a local or remote parallel socket cluster.}
 \usage{
-regcluster(nnodes = 1, names = "localhost", outfile = "/dev/null",
-  silent = TRUE)
+regcluster(
+  nnodes = 1,
+  names = "localhost",
+  outfile = "/dev/null",
+  silent = TRUE
+)
 }
 \arguments{
 \item{nnodes}{integer or vector; number of nodes to be forked.

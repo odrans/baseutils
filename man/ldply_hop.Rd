@@ -2,7 +2,9 @@
 % Please edit documentation in R/cluster.R
 \name{ldply_hop}
 \alias{ldply_hop}
-\title{Run ldply on local sub-clusters created on the selected hosts.}
+\title{Run ldply on local sub-clusters created on the selected hosts.
+The advantage over clusterApply_hop is that ldply doesn't wait for all jobs to finish before started a new batch
+Inconvenient is that memory usage is not as properly handled as with clusterApply. Overflows will not be killed.}
 \usage{
 ldply_hop(n, cl, x, fun, ...)
 }
@@ -22,4 +24,6 @@ List containing function outputs
 }
 \description{
 Run ldply on local sub-clusters created on the selected hosts.
+The advantage over clusterApply_hop is that ldply doesn't wait for all jobs to finish before started a new batch
+Inconvenient is that memory usage is not as properly handled as with clusterApply. Overflows will not be killed.
 }
