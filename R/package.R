@@ -7,7 +7,7 @@ package <- function(name,check=FALSE,...) {
   old.wd <- getwd()
     
   accepted.packages <- c("icnc", "icon", "cospr", "rttools", "rmodis", "SplitR", "rhdf4", "dardarNi",
-                         "rrrtmg", "niforcing", "baseutils", "darnitools", "nctools", "cldphys")
+                         "rrrtmg", "niforcing", "baseutils", "darnitools", "nctools", "cldphys", "s3com")
 
   if(length(name)==0) {
     stop(paste("Please indicate package name as argument. Currently:",paste(accepted.packages,collapse = ", ")))
@@ -83,6 +83,13 @@ package <- function(name,check=FALSE,...) {
   if(package=="cldphys") description <- list(Title= "Some helpful functions for cloud and atmospheric physics",
                                              Description="Just what the title says",
                                              Version="1.0")
+
+  if(package=="s3com") {
+    description <- list(Title= "Useful tools for S3COM",
+                        Description="",
+                        Version="1.0")
+    license <- "MIT"
+  }
 
   options(devtools.desc.author=author,
           devtools.desc.license=license,
